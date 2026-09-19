@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import asyncio
 
 from homeassistant.components.switch import SwitchEntity

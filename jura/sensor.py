@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """Sensor platform for Jura integration."""
 
 import logging
@@ -50,7 +52,7 @@ async def async_setup_entry(
             await device.read_alerts()
         except Exception as ex:
             # we log as info as this is expected if the device is off
-            _LOGGER.info(f"Error refreshing statistics: {ex}")
+            _LOGGER.info("Error refreshing statistics: %s", ex)
 
     # Schedule regular updates
     entry.async_on_unload(
@@ -84,7 +86,7 @@ class JuraStatisticsSensor(JuraEntity, SensorEntity):
 
     def internal_update(self):
         """Override parent method to ensure statistics are refreshed."""
-        _LOGGER.debug(f"Updating sensor {self._attr_name}")
+        _LOGGER.debug("Updating sensor %s", self._attr_name)
         if self.hass is not None:
             self.async_write_ha_state()
 
@@ -104,7 +106,7 @@ class JuraTotalCoffeeSensor(JuraStatisticsSensor):
     def _get_value(self) -> int:
         """Get the total coffee count."""
         value = self.device.statistics.get("total_products", 0)
-        _LOGGER.debug(f"Total coffee value: {value}")
+        _LOGGER.debug("Total coffee value: %s", value)
         return value
 
 
@@ -127,7 +129,7 @@ class JuraProductCountSensor(JuraStatisticsSensor):
         value = self.device.statistics.get("product_counts", {}).get(
             self.product_name, None
         )
-        _LOGGER.debug(f"Product {self.product_name} count: {value}")
+        _LOGGER.debug("Product %s count: %s", self.product_name, value)
         return value
 
 
@@ -165,6 +167,6 @@ class JuraAlertSensor(JuraEntity, SensorEntity):
 
     def internal_update(self):
         """Override parent method to ensure alerts are refreshed."""
-        _LOGGER.debug(f"Updating alert sensor {self._attr_name}")
+        _LOGGER.debug("Updating alert sensor %s", self._attr_name)
         if self.hass is not None:
             self.async_write_ha_state()

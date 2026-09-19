@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import re
 
 from homeassistant.helpers.device_registry import CONNECTION_NETWORK_MAC
@@ -8,13 +10,16 @@ from .device import Device
 
 
 def sanitize(entity_id: str) -> str:
+    """Reduce a unique id to a valid entity object id fragment."""
     return re.sub(r"[^0-9a-z_]+", "", entity_id.lower())
 
 
 class JuraEntity(Entity):
+    """Base entity wired to Device attribute updates."""
+
     _attr_should_poll = False
 
-    def __init__(self, device: Device, attr: str):
+    def __init__(self, device: Device, attr: str) -> None:
         self.device = device
         self.attr = attr
 
@@ -36,8 +41,5 @@ class JuraEntity(Entity):
     def suggested_object_id(self) -> str | None:
         return sanitize(self.unique_id)
 
-    def internal_update(self):
+    def internal_update(self) -> None:
         pass
-
-    async def async_update(self):
-        self.device.client.ping()

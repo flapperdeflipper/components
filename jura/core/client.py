@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import asyncio
 import logging
 import time
@@ -140,10 +142,10 @@ class Client:
                 return encryption.encdec(list(data), self.key)
             return data
         except BleakError as e:
-            _LOGGER.info(f"Error reading from characteristic {uuid}", exc_info=e)
+            _LOGGER.info("Error reading from characteristic %s", uuid, exc_info=e)
             raise
         except Exception as e:
-            _LOGGER.info(f"Error reading from characteristic {uuid}", exc_info=e)
+            _LOGGER.info("Error reading from characteristic %s", uuid, exc_info=e)
             raise
 
     async def read_statistics_data(
@@ -202,7 +204,7 @@ class Client:
         try:
             data = await self.read(UUIDs.MACHINE_STATUS, decrypt=True)
             if data:
-                _LOGGER.debug(f"Machine status data: {data}")
+                _LOGGER.debug("Machine status data: %s", data)
                 return data
         except Exception as e:
             _LOGGER.warning("Error reading machine status", exc_info=e)
