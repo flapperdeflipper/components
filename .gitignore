@@ -1,3 +1,13 @@
+# Ignore everything by default; our own components are whitelisted explicitly.
+# A new component must be deliberately added either here (ours) or left
+# ignored (third-party / HACS-managed) - never tracked by accident.
+/*
+!/.gitignore
+!/README.md
+!/extended_openai_conversation/
+!/jura/
+
+# never track runtime artifacts
 __pycache__/
 *.pyc
 *.pyo

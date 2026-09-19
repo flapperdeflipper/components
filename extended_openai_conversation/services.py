@@ -45,7 +45,7 @@ QUERY_IMAGE_SCHEMA = vol.Schema(
         vol.Required("model", default="gpt-4.1-mini"): cv.string,
         vol.Required("prompt"): cv.string,
         vol.Required("images"): vol.All(cv.ensure_list, [{"url": cv.string}]),
-        vol.Optional("max_tokens", default=300): cv.positive_int,
+        vol.Optional("max_tokens", default=800): cv.positive_int,
     }
 )
 
