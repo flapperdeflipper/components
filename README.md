@@ -25,3 +25,16 @@ Fork of AlexxIT/Jura (vendored from upstream v1.2.2). The live copy in
 nested v1.2.2 copy inside it). This repo is the source of truth going
 forward; quality upgrades happen here, then get copied to
 `custom_components/jura` and reloaded.
+
+### jura tests
+
+The core logic tests run without Home Assistant or hardware:
+
+```
+python3 -m venv .venv && .venv/bin/pip install bleak bleak-retry-connector xmltodict pytest
+.venv/bin/python -m pytest tests/ -q
+```
+
+`tests/conftest.py` stubs the few `homeassistant` imports so `jura.core` and
+entity naming can be exercised; full integration coverage belongs on a dev
+machine with `pytest-homeassistant-custom-component`.

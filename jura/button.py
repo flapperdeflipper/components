@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 
 from homeassistant.components.button import ButtonEntity
@@ -58,4 +60,4 @@ class JuraRefreshStatsButton(JuraEntity, ButtonEntity):
             await self.device.read_alerts()
             _LOGGER.info("Successfully refreshed Jura statistics and alerts")
         except Exception as e:
-            _LOGGER.error(f"Error refreshing Jura statistics: {e}")
+            _LOGGER.error("Error refreshing Jura statistics: %s", e)

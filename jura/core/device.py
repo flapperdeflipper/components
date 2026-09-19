@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 from datetime import datetime, timezone
 from pathlib import Path
@@ -239,7 +241,8 @@ class Device:
             else None
         )
         _LOGGER.info(
-            f"Total coffee count from data: {total_count if total_count is not None else 'undefined'}"
+            "Total coffee count from data: %s",
+            total_count if total_count is not None else "undefined",
         )
 
         # remove aberrant values if any
@@ -262,11 +265,11 @@ class Device:
                     f"Stat entry: Position {i} = {count} -> {product['@Name']}"
                 )
             else:
-                _LOGGER.debug(f"No product found for code {i} with count {count}")
+                _LOGGER.debug("No product found for code %s with count %s", i, count)
 
         # Log the final counts at info log level
         for product, count in product_counts.items():
-            _LOGGER.info(f"Product: {product}, Count: {count}")
+            _LOGGER.info("Product: %s, Count: %s", product, count)
 
         # Save the statistics
         self.statistics = {
@@ -275,7 +278,7 @@ class Device:
         }
 
         # Notify all statistics listeners
-        _LOGGER.debug(f"Notifying {len(self.updates_statistics)} statistics listeners")
+        _LOGGER.debug("Notifying %d statistics listeners", len(self.updates_statistics))
         for handler in self.updates_statistics:
             handler()
 
@@ -304,13 +307,13 @@ class Device:
             offset_byte = 7 - (i & 0b111)
             if (data[offset_abs] >> offset_byte) & 0b1:
                 alerts[i] = alert = self.alerts.get(i, f"unknown alert {i}")
-                _LOGGER.debug(f"Alert active. Alert bit: {i} - {alert}")
+                _LOGGER.debug("Alert active. Alert bit: %s - %s", i, alert)
 
         # Save the alerts
         self.active_alerts = alerts
 
         # Notify all alert listeners
-        _LOGGER.debug(f"Notifying {len(self.updates_alerts)} alert listeners")
+        _LOGGER.debug("Notifying %d alert listeners", len(self.updates_alerts))
         for handler in self.updates_alerts:
             handler()
 

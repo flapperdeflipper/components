@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from homeassistant.components.select import SelectEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
@@ -9,7 +11,7 @@ from .core.entity import JuraEntity
 
 async def async_setup_entry(
     hass: HomeAssistant, config_entry: ConfigEntry, add_entities: AddEntitiesCallback
-):
+) -> None:
     device = hass.data[DOMAIN][config_entry.entry_id]
 
     add_entities([JuraSelect(device, select) for select in device.selects()])
