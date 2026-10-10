@@ -6,6 +6,9 @@
           "mac": "MAC"
         }
       }
+    },
+    "error": {
+      "no_devices": "No Jura coffee machines discovered yet. Make sure the machine is powered on and try again in a moment."
     }
   }
 }

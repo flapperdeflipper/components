@@ -19,7 +19,12 @@ from homeassistant.helpers.event import async_track_time_interval
 from .core import DOMAIN
 from .core.entity import JuraEntity
 
+# alert bits that are normal machine chatter and not worth reporting
+FILTERED_ALERT_BITS = {12, 13, 36, 37, 148, 149, 150, 151}
+
 _LOGGER = logging.getLogger(__name__)
+
+UPDATE_INTERVAL = timedelta(seconds=60)
 
 
 async def async_setup_entry(
@@ -42,8 +47,7 @@ async def async_setup_entry(
 
     async_add_entities(entities)
 
-    # Set up automatic refresh
-    update_interval = hass.data[DOMAIN].get("update_interval", 60)
+    # Set up automatic refresh every UPDATE_INTERVAL seconds
 
     async def refresh_statistics(*_):
         """Refresh statistics regularly."""
@@ -57,7 +61,7 @@ async def async_setup_entry(
     # Schedule regular updates
     entry.async_on_unload(
         async_track_time_interval(
-            hass, refresh_statistics, timedelta(seconds=update_interval)
+            hass, refresh_statistics, UPDATE_INTERVAL
         )
     )
 
@@ -144,26 +148,26 @@ class JuraAlertSensor(JuraEntity, SensorEntity):
         """Initialize the sensor."""
         super().__init__(device, "alerts")
         self._attr_name = f"{device.name} Alerts"
-        self._attr_extra_state_attributes = {"active_alerts": []}
-
         # Register for updates on alerts
         device.register_alert_update(self.internal_update)
 
     @property
     def native_value(self) -> str:
         """Return the state of the sensor."""
-        return self._get_value()
+        return "alert" if self._active_alerts() else "ok"
 
-    def _get_value(self) -> str:
-        """Get the alert status."""
-        active_alerts = []
-        # Filter out specific alert bits that we don't want to show
-        filtered_bits = {12, 13, 36, 37, 148, 149, 150, 151}
-        for bit, name in self.device.active_alerts.items():
-            if bit not in filtered_bits:
-                active_alerts.append({"bit": bit, "name": name})
-        self._attr_extra_state_attributes["active_alerts"] = active_alerts
-        return "alert" if active_alerts else "ok"
+    @property
+    def extra_state_attributes(self) -> dict:
+        """Return the alerts that are not filtered out."""
+        return {"active_alerts": self._active_alerts()}
+
+    def _active_alerts(self) -> list[dict]:
+        """Get the alert entries that are not filtered out."""
+        return [
+            {"bit": bit, "name": name}
+            for bit, name in self.device.active_alerts.items()
+            if bit not in FILTERED_ALERT_BITS
+        ]
 
     def internal_update(self):
         """Override parent method to ensure alerts are refreshed."""

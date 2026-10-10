@@ -358,7 +358,7 @@ def get_machine(adv: bytes) -> dict | None:
                 alerts = {
                     int(i["@Bit"]): i["@Name"] for i in raw["JOE"]["ALERTS"]["ALERT"]
                 }
-            except:
+            except Exception:
                 alerts = {}
 
     # First byte is the encryption key

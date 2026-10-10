@@ -32,7 +32,7 @@ class JuraMakeButton(JuraEntity, ButtonEntity):
         self._attr_available = self.device.product is not None
 
         if self.hass:
-            self._async_write_ha_state()
+            self.async_write_ha_state()
 
     async def async_press(self) -> None:
         self.device.start_product()
@@ -50,7 +50,7 @@ class JuraRefreshStatsButton(JuraEntity, ButtonEntity):
 
     def internal_update(self):
         if self.hass:
-            self._async_write_ha_state()
+            self.async_write_ha_state()
 
     async def async_press(self) -> None:
         """Handle the button press."""

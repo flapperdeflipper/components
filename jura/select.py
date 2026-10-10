@@ -26,9 +26,9 @@ class JuraSelect(JuraEntity, SelectEntity):
         self._attr_available = "default" in attribute
 
         if self.hass:
-            self._async_write_ha_state()
+            self.async_write_ha_state()
 
     async def async_select_option(self, option: str) -> None:
         self.device.select_option(self.attr, option)
         self._attr_current_option = option
-        self._async_write_ha_state()
+        self.async_write_ha_state()

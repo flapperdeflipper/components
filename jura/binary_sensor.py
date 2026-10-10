@@ -111,7 +111,7 @@ class JuraSensor(JuraEntity, BinarySensorEntity):
         self._attr_extra_state_attributes = self.device.conn_info
 
         if self.hass:
-            self._async_write_ha_state()
+            self.async_write_ha_state()
 
 
 class JuraAlertBinarySensor(JuraEntity, BinarySensorEntity):
@@ -141,4 +141,4 @@ class JuraAlertBinarySensor(JuraEntity, BinarySensorEntity):
         )
 
         if self.hass:
-            self._async_write_ha_state()
+            self.async_write_ha_state()

@@ -24,7 +24,7 @@ class JuraSwitch(JuraEntity, SwitchEntity):
         self._attr_is_on = self.device.connected
 
         if self.hass:
-            self._async_write_ha_state()
+            self.async_write_ha_state()
 
     async def async_turn_on(self) -> None:
         self.device.client.ping()
