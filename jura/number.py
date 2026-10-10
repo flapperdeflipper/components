@@ -28,9 +28,9 @@ class JuraNumber(JuraEntity, NumberEntity):
         self._attr_native_value = attribute.get("value")
 
         if self.hass:
-            self._async_write_ha_state()
+            self.async_write_ha_state()
 
     async def async_set_native_value(self, value: float) -> None:
         self.device.set_value(self.attr, int(value))
         self._attr_native_value = int(value)
-        self._async_write_ha_state()
+        self.async_write_ha_state()

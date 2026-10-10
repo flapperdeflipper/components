@@ -55,7 +55,7 @@ class Entity:
     def unique_id(self):
         return self._attr_unique_id
 
-    def _async_write_ha_state(self) -> None:
+    def async_write_ha_state(self) -> None:
         pass
 
 
