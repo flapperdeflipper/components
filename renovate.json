@@ -2,5 +2,12 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "local>flapperdeflipper/renovate:default.json5"
+  ],
+  "packageRules": [
+    {
+      "description": "openai must match the deployed HA release's core litellm pin (HA 2026.10.0 -> openai 3.10.0). Move this together with HA upgrades, never independently.",
+      "matchPackageNames": ["openai"],
+      "allowedVersions": "3.10.0"
+    }
   ]
 }
