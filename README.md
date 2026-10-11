@@ -11,6 +11,14 @@ The HA config repo ignores `custom_components/*` (HACS-managed components
 live only there) and ignores this directory entirely - this repo is
 published on its own.
 
+## Install
+
+[![Add repository to HACS via My Home Assistant](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=flapperdeflipper&repository=components&category=Integration)
+
+Via [HACS](https://hacs.xyz/): Menu > Custom repositories > URL: `flapperdeflipper/components`, Category: Integration > Add.
+
+Or manually copy the component's folder (e.g. `jura`) to the `custom_components` folder in your config folder.
+
 ## extended_openai_conversation
 
 Locally patched LLM Assist agent (conversation integration). **Never update
